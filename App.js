@@ -14,6 +14,16 @@ export default function App() {
     });
   };
 
+  const handleDeleteGoal = (goalToDelete) => {
+    // can also use filter here because it returns a new array
+    setListOfGoals((prevList) => {
+      return [
+        ...prevList.slice(0, goalToDelete.index),
+        ...prevList.slice(goalToDelete.index + 1),
+      ];
+    });
+  };
+
   return (
     <View style={styles.appContainer}>
       <GoalInput handleSubmit={handleSubmit} />
@@ -21,7 +31,12 @@ export default function App() {
         <FlatList
           data={listOfGoals}
           renderItem={(itemData) => {
-            return <GoalItem itemData={itemData} />;
+            return (
+              <GoalItem
+                itemData={itemData}
+                handleDeleteGoal={handleDeleteGoal}
+              />
+            );
           }}
           keyExtractor={(item, index) => index}
         />
